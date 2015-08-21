@@ -1,5 +1,13 @@
 var harvester = require('harvester');
 
+// MUST BE AT THE BEGINNING
+// memory cleanup
+for(var i in Memory.creeps) {
+    if(!Game.creeps[i]) {
+        delete Memory.creeps[i];
+    }
+}
+
 if(Object.keys(Game.creeps).length < 10) {
     Game.spawns['spawn1'].createCreep([WORK, CARRY, MOVE], undefined, {'role': 'harvester'});
 }

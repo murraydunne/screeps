@@ -1,6 +1,6 @@
 var harvester = require('harvester');
 
-if(Game.creeps.length < 10) {
+if(Object.keys(Game.creeps).length < 10) {
     console.log('creating creep' + Game.spawns['spawn1'].createCreep([WORK, CARRY, MOVE], undefined, {'role': 'harvester'}));
 }
 

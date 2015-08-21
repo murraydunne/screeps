@@ -23,6 +23,7 @@ function calculateSourceBusiness(source) {
         var pos = surroundingSquares[i];
         
         if(pos && pos.lookFor('terrain').length === 0) {
+            console.log('found terrain');
             open = open + 1.0;
         }
         if(pos && pos.lookFor('creep').length > 0) {

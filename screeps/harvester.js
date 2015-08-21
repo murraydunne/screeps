@@ -1,7 +1,3 @@
-function spawnsInRoom(room) {
-    return room.find(FIND_SOURCES_ACTIVE);
-}
-
 function calculateSourceBusiness(source) {
     var sourcePos = source.pos;
     var open = 0.0;
@@ -46,7 +42,7 @@ function stateToEnergy(creep) {
     
     var energy = Game.getObjectById(creep.memory.targetEnergy);
     
-    console.log(calculateSourceBusiness(energy));
+    //console.log(calculateSourceBusiness(energy));
 
     if (!creep.pos.isNearTo(energy)) {
         creep.moveTo(energy);

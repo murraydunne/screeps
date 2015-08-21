@@ -62,10 +62,11 @@ module.exports = function(creep) {
             }
         } else {
             var controller = creep.room.controller;
-            if (!creep.pos.isNearTo(controller)) {
-                creep.moveTo(controller);
-            } else {
+            if (creep.pos.isNearTo(controller)) {
+                console.log("upgrading controller");
                 creep.upgradeController(controller);
+            } else {
+                creep.moveTo(controller);
             }
         }
     }

@@ -40,12 +40,14 @@ module.exports = function(creep) {
         // Still can carry some more, go mine the nearest energy source
         var energy = creep.pos.findClosest(FIND_SOURCES_ACTIVE);
         
-        console.log(calculateSourceBusiness(energy));
-        
-        if (!creep.pos.isNearTo(energy)) {
-            creep.moveTo(energy);
-        } else {
-            creep.harvest(energy);
+        if(energy) {
+            console.log(calculateSourceBusiness(energy));
+
+            if (!creep.pos.isNearTo(energy)) {
+                creep.moveTo(energy);
+            } else {
+                creep.harvest(energy);
+            }
         }
     } else {
         // Full of energy, go dump it at the nearest spawn

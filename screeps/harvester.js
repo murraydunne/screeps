@@ -12,16 +12,16 @@ function calculateSourceBusiness(source) {
     console.log(source.room);
     console.log(source.room.name);
     
-    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y - 1, source.room.name));
-    surroundingSquares.append(RoomPosition(sourcePos.x,     sourcePos.y - 1, source.room.name));
-    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y - 1, source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x - 1, sourcePos.y - 1, source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x,     sourcePos.y - 1, source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x + 1, sourcePos.y - 1, source.room.name));
     
-    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y    , source.room.name));
-    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y    , source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x - 1, sourcePos.y    , source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x + 1, sourcePos.y    , source.room.name));
     
-    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y + 1, source.room.name));
-    surroundingSquares.append(RoomPosition(sourcePos.x    , sourcePos.y + 1, source.room.name));
-    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y + 1, source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x + 1, sourcePos.y + 1, source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x    , sourcePos.y + 1, source.room.name));
+    surroundingSquares.append(new RoomPosition(sourcePos.x - 1, sourcePos.y + 1, source.room.name));
     
     for(var pos in surroundingSquares) {
         if(pos && pos.lookFor('terrain').length === 0) {

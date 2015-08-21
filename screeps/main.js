@@ -6,5 +6,10 @@ if(Object.keys(Game.creeps).length < 10) {
 
 for (var name in Game.creeps) {
     var creep = Game.creeps[name];
-    harvester(creep);
+    
+    switch(creep.memory.role) {
+        case 'harvester':
+            harvester(creep);
+            break;
+    }
 }

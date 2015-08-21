@@ -23,7 +23,9 @@ function calculateSourceBusiness(source) {
     surroundingSquares.push(new RoomPosition(sourcePos.x    , sourcePos.y + 1, source.room.name));
     surroundingSquares.push(new RoomPosition(sourcePos.x - 1, sourcePos.y + 1, source.room.name));
     
-    for(var pos in surroundingSquares) {
+    for(var i in surroundingSquares) {
+        var pos = surroundingSquares[i];
+        
         if(pos && pos.lookFor('terrain').length === 0) {
             open = open + 1.0;
         }

@@ -8,6 +8,10 @@ function calculateSourceBusiness(source) {
     var hasCreep = 0.0;
     var surroundingSquares = [];
     
+    console.log(source);
+    console.log(source.room);
+    console.log(source.room.name);
+    
     surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y - 1, source.room.name));
     surroundingSquares.append(RoomPosition(sourcePos.x,     sourcePos.y - 1, source.room.name));
     surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y - 1, source.room.name));

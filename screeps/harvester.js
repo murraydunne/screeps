@@ -1,6 +1,6 @@
 module.exports = function(creep) {
     // Check whether the creep can carry more energy
-    if (creep.energy < creep.energyCapacity) {
+    if (creep.carry.energy < creep.carryCapacity) {
         // Still can carry some more, go mine the nearest energy source
         var energy = creep.pos.findClosest(FIND_SOURCES_ACTIVE);
         if (!creep.pos.isNearTo(energy)) {

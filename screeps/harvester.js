@@ -8,10 +8,6 @@ function calculateSourceBusiness(source) {
     var hasCreep = 0.0;
     var surroundingSquares = [];
     
-    console.log(source);
-    console.log(source.room);
-    console.log(source.room.name);
-    
     surroundingSquares.push(new RoomPosition(sourcePos.x - 1, sourcePos.y - 1, source.room.name));
     surroundingSquares.push(new RoomPosition(sourcePos.x,     sourcePos.y - 1, source.room.name));
     surroundingSquares.push(new RoomPosition(sourcePos.x + 1, sourcePos.y - 1, source.room.name));
@@ -34,6 +30,7 @@ function calculateSourceBusiness(source) {
         }
     }
     
+    console.log(hasCreep + "/" + open);
     return hasCreep / open;
 }
 
@@ -43,7 +40,6 @@ module.exports = function(creep) {
         // Still can carry some more, go mine the nearest energy source
         var energy = creep.pos.findClosest(FIND_SOURCES_ACTIVE);
         
-        console.log(energy.pos.x + " " + energy.pos.y)
         console.log(calculateSourceBusiness(energy));
         
         if (!creep.pos.isNearTo(energy)) {

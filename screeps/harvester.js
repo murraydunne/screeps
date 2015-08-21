@@ -65,7 +65,7 @@ module.exports = function(creep) {
             if (!creep.pos.isNearTo(controller)) {
                 creep.moveTo(controller);
             } else {
-                creep.transferEnergy(controller);
+                creep.upgradeController(controller);
             }
         }
     }

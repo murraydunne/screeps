@@ -46,7 +46,7 @@ module.exports = function(creep) {
         // Full of energy, go dump it at the nearest spawn
         var spawn = creep.pos.findClosest(FIND_MY_SPAWNS);
         
-        if(spawn.energy < spawn.energyCapacity) {
+        if(spawn && spawn.energy < spawn.energyCapacity) {
             if (!creep.pos.isNearTo(spawn)) {
                 creep.moveTo(spawn);
             } else {

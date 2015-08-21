@@ -35,39 +35,100 @@ function calculateSourceBusiness(source) {
     return hasCreep / open;
 }
 
-module.exports = function(creep) {
-    // Check whether the creep can carry more energy
-    if (creep.carry.energy < creep.carryCapacity) {
-        // Still can carry some more, go mine the nearest energy source
-        var energy = creep.pos.findClosest(FIND_SOURCES_ACTIVE);
+function stateToEnergy(creep) {
+    if(!creep.memory.targetEnergy) {
+        creep.memory.targetEnergy = creep.pos.findClosest(FIND_SOURCES_ACTIVE);
         
-        if(energy) {
-            console.log(calculateSourceBusiness(energy));
+        if(!creep.memory.targetEnergy) {
+            return;
+        }
+    }
+    
+    console.log(calculateSourceBusiness(creep.memory.targetEnergy));
 
-            if (!creep.pos.isNearTo(energy)) {
-                creep.moveTo(energy);
-            } else {
-                creep.harvest(energy);
-            }
-        }
+    if (!creep.pos.isNearTo(creep.memory.targetEnergy)) {
+        creep.moveTo(creep.memory.targetEnergy);
     } else {
-        // Full of energy, go dump it at the nearest spawn
-        var spawn = creep.pos.findClosest(FIND_MY_SPAWNS);
+        creep.memory.state = 'mining';
+    }
+}
+
+function stateMining(creep) {
+    if (creep.carry.energy < creep.carryCapacity) {
+        creep.harvest(creep.memory.targetEnergy);
+    } else {
+        creep.memory.targetSpawn = creep.pos.findClosest(FIND_MY_SPAWNS);
         
-        if(spawn && spawn.energy < spawn.energyCapacity) {
-            if (!creep.pos.isNearTo(spawn)) {
-                creep.moveTo(spawn);
-            } else {
-                creep.transferEnergy(spawn);
-            }
-        } else {
-            var controller = creep.room.controller;
-            if (creep.pos.isNearTo(controller)) {
-                console.log("upgrading controller");
-                creep.upgradeController(controller);
-            } else {
-                creep.moveTo(controller);
-            }
+        if(!creep.memory.targetSpawn) {
+            return;
         }
+        
+        if(creep.memory.targetSpawn.energy < creep.memory.targetSpawn.energyCapacity) {
+            creep.memory.state = 'returning';
+        } else {
+            creep.memory.state = 'tocontroller';
+        }
+    }
+}
+
+function stateReturning(creep) {
+    if (!creep.pos.isNearTo(creep.memory.targetSpawn)) {
+        creep.moveTo(creep.memory.targetSpawn);
+    } else {
+        creep.memory.state = 'depositing';
+    }
+}
+
+function stateDepositing(creep) {
+    if (creep.carry.energy > 0) {
+        creep.transferEnergy(creep.memory.targetSpawn);
+    } else {
+        creep.memory.state = 'toenergy';
+    }
+}
+
+function stateToController(creep) {
+    if (!creep.pos.isNearTo(creep.room.controller)) {
+        creep.moveTo(creep.memory.targetSpawn);
+    } else {
+        creep.memory.state = 'upgrading';
+    }
+}
+
+function stateUpgrading(creep) {
+    if (creep.carry.energy > 0) {
+        creep.upgradeController(creep.room.controller);
+    } else {
+        creep.memory.state = 'toenergy';
+    }
+}
+
+module.exports = function(creep) {
+    if(!creep.memory.state) {
+        creep.memory.state = 'toenergy';
+    }
+    
+    switch(creep.memory.state) {
+        case 'toenergy':
+            stateToEnergy(creep);
+            break;
+        case 'mining':
+            stateMining(creep);
+            break;
+        case 'returning':
+            stateReturning(creep);
+            break;
+        case 'depositing':
+            stateDepositing(creep);
+            break;
+        case 'tocontroller':
+            stateToController(creep);
+            break;
+        case 'upgrading':
+            stateUpgrading(creep);
+            break;
+        default:
+            console.log("Error: harvester without valid state " + creep.memory.state);
+            break;
     }
 }

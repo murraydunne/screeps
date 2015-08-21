@@ -45,10 +45,20 @@ module.exports = function(creep) {
     } else {
         // Full of energy, go dump it at the nearest spawn
         var spawn = creep.pos.findClosest(FIND_MY_SPAWNS);
-        if (!creep.pos.isNearTo(spawn)) {
-            creep.moveTo(spawn);
+        
+        if(spawn.energy < spawn.energyCapacity) {
+            if (!creep.pos.isNearTo(spawn)) {
+                creep.moveTo(spawn);
+            } else {
+                creep.transferEnergy(spawn);
+            }
         } else {
-            creep.transferEnergy(spawn);
+            var controller = creep.room.controller;
+            if (!creep.pos.isNearTo(controller)) {
+                creep.moveTo(controller);
+            } else {
+                creep.transferEnergy(controller);
+            }
         }
     }
 }

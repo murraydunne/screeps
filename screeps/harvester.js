@@ -37,17 +37,19 @@ function calculateSourceBusiness(source) {
 
 function stateToEnergy(creep) {
     if(!creep.memory.targetEnergy) {
-        creep.memory.targetEnergy = creep.pos.findClosest(FIND_SOURCES_ACTIVE);
+        creep.memory.targetEnergy = creep.pos.findClosest(FIND_SOURCES_ACTIVE).id;
         
         if(!creep.memory.targetEnergy) {
             return;
         }
     }
     
-    console.log(calculateSourceBusiness(creep.memory.targetEnergy));
+    var energy = Game.getObjectById(creep.memory.targetEnergy);
+    
+    console.log(calculateSourceBusiness(energy));
 
-    if (!creep.pos.isNearTo(creep.memory.targetEnergy)) {
-        creep.moveTo(creep.memory.targetEnergy);
+    if (!creep.pos.isNearTo(energy)) {
+        creep.moveTo(energy);
     } else {
         creep.memory.state = 'mining';
     }
@@ -55,15 +57,18 @@ function stateToEnergy(creep) {
 
 function stateMining(creep) {
     if (creep.carry.energy < creep.carryCapacity) {
-        creep.harvest(creep.memory.targetEnergy);
+        var energy = Game.getObjectById(creep.memory.targetEnergy);
+        creep.harvest(energy);
     } else {
-        creep.memory.targetSpawn = creep.pos.findClosest(FIND_MY_SPAWNS);
+        creep.memory.targetSpawn = creep.pos.findClosest(FIND_MY_SPAWNS).id;
         
         if(!creep.memory.targetSpawn) {
             return;
         }
         
-        if(creep.memory.targetSpawn.energy < creep.memory.targetSpawn.energyCapacity) {
+        var spawn = Game.getObjectById(creep.memory.targetSpawn);
+        
+        if(spawn.energy < spawn.energyCapacity) {
             creep.memory.state = 'returning';
         } else {
             creep.memory.state = 'tocontroller';
@@ -72,16 +77,20 @@ function stateMining(creep) {
 }
 
 function stateReturning(creep) {
-    if (!creep.pos.isNearTo(creep.memory.targetSpawn)) {
-        creep.moveTo(creep.memory.targetSpawn);
+    var spawn = Game.getObjectById(creep.memory.targetSpawn);
+    
+    if (!creep.pos.isNearTo(spawn)) {
+        creep.moveTo(spawn);
     } else {
         creep.memory.state = 'depositing';
     }
 }
 
 function stateDepositing(creep) {
+    var spawn = Game.getObjectById(creep.memory.targetSpawn);
+    
     if (creep.carry.energy > 0) {
-        creep.transferEnergy(creep.memory.targetSpawn);
+        creep.transferEnergy(spawn);
     } else {
         creep.memory.state = 'toenergy';
     }
@@ -89,7 +98,7 @@ function stateDepositing(creep) {
 
 function stateToController(creep) {
     if (!creep.pos.isNearTo(creep.room.controller)) {
-        creep.moveTo(creep.memory.targetSpawn);
+        creep.moveTo(creep.room.controller);
     } else {
         creep.memory.state = 'upgrading';
     }

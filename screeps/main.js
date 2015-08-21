@@ -5,7 +5,7 @@ if(Object.keys(Game.creeps).length < 10) {
 }
 
 for(var i in Memory.creeps) {
-    if(Game.creeps[i].timeToLive <= 0) {
+    if(!Game.creeps[i]) {
         delete Memory.creeps[i];
     }
 }

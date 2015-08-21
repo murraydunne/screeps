@@ -6,7 +6,7 @@ if(Object.keys(Game.creeps).length < 10) {
 
 var x = "";
 for(var i in Memory.creeps) {
-    x = " " + x + i;
+    x = " " + x + i + " " + Game.creeps[i];
 }
 console.log(x);
 

@@ -8,16 +8,16 @@ function calculateSourceBusiness(source) {
     var hasCreep = 0.0;
     var surroundingSquares = [];
     
-    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y - 1));
-    surroundingSquares.append(RoomPosition(sourcePos.x,     sourcePos.y - 1));
-    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y - 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y - 1, source.room.name));
+    surroundingSquares.append(RoomPosition(sourcePos.x,     sourcePos.y - 1, source.room.name));
+    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y - 1, source.room.name));
     
-    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y));
-    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y));
+    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y    , source.room.name));
+    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y    , source.room.name));
     
-    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y + 1));
-    surroundingSquares.append(RoomPosition(sourcePos.x    , sourcePos.y + 1));
-    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y + 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y + 1, source.room.name));
+    surroundingSquares.append(RoomPosition(sourcePos.x    , sourcePos.y + 1, source.room.name));
+    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y + 1, source.room.name));
     
     for(var pos in surroundingSquares) {
         if(pos && pos.lookFor('terrain').length === 0) {

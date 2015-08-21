@@ -2,25 +2,25 @@ function spawnsInRoom(room) {
     return room.find(FIND_SOURCES_ACTIVE);
 }
 
-function calculateSourceBusiness(spawn) {
-    var spawnPos = spawn.pos;
+function calculateSourceBusiness(source) {
+    var sourcePos = source.pos;
     var open = 0.0;
-    var hasCreep = 0.0
+    var hasCreep = 0.0;
     var surroundingSquares = [];
     
-    surroundingSquares.append(RoomPosition(spawnPos.x - 1, spawnPos.y - 1));
-    surroundingSquares.append(RoomPosition(spawnPos.x,     spawnPos.y - 1));
-    surroundingSquares.append(RoomPosition(spawnPos.x + 1, spawnPos.y - 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y - 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x,     sourcePos.y - 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y - 1));
     
-    surroundingSquares.append(RoomPosition(spawnPos.x - 1, spawnPos.y));
-    surroundingSquares.append(RoomPosition(spawnPos.x + 1, spawnPos.y));
+    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y));
+    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y));
     
-    surroundingSquares.append(RoomPosition(spawnPos.x + 1, spawnPos.y + 1));
-    surroundingSquares.append(RoomPosition(spawnPos.x    , spawnPos.y + 1));
-    surroundingSquares.append(RoomPosition(spawnPos.x - 1, spawnPos.y + 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x + 1, sourcePos.y + 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x    , sourcePos.y + 1));
+    surroundingSquares.append(RoomPosition(sourcePos.x - 1, sourcePos.y + 1));
     
     for(var pos in surroundingSquares) {
-        if(pos && pos.lookFor('terrain').length == 0) {
+        if(pos && pos.lookFor('terrain').length === 0) {
             open = open + 1.0;
         }
         if(pos && pos.lookFor('creep').length > 0) {
@@ -36,7 +36,10 @@ module.exports = function(creep) {
     if (creep.carry.energy < creep.carryCapacity) {
         // Still can carry some more, go mine the nearest energy source
         var energy = creep.pos.findClosest(FIND_SOURCES_ACTIVE);
+        
+        console.log(energy.pos.x + " " + energy.pos.y)
         console.log(calculateSourceBusiness(energy));
+        
         if (!creep.pos.isNearTo(energy)) {
             creep.moveTo(energy);
         } else {

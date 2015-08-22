@@ -38,7 +38,9 @@ function openSpacesAround(pos) {
     
     for(var i in objectsInArea) {
         for(var j in objectsInArea[i]) {
+            console.log(i + ' ' + j);
             if(i !== pos.y && j !== pos.x) {
+                console.log('ok');
                 for(var k in objectsInArea[i][j]) {
                     if(objectsInArea[i][j][k]['type'] === 'terrain' && objectsInArea[i][j][k]['terrain'] === 'wall') {
                         open = open + 1;

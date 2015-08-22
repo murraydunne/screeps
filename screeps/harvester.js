@@ -1,35 +1,9 @@
-function calculateSourceBusiness(source) {
-    var sourcePos = source.pos;
-    var open = 0.0;
-    var hasCreep = 0.0;
-    var surroundingSquares = [];
-    
-    surroundingSquares.push(new RoomPosition(sourcePos.x - 1, sourcePos.y - 1, source.room.name));
-    surroundingSquares.push(new RoomPosition(sourcePos.x,     sourcePos.y - 1, source.room.name));
-    surroundingSquares.push(new RoomPosition(sourcePos.x + 1, sourcePos.y - 1, source.room.name));
-    
-    surroundingSquares.push(new RoomPosition(sourcePos.x - 1, sourcePos.y    , source.room.name));
-    surroundingSquares.push(new RoomPosition(sourcePos.x + 1, sourcePos.y    , source.room.name));
-    
-    surroundingSquares.push(new RoomPosition(sourcePos.x + 1, sourcePos.y + 1, source.room.name));
-    surroundingSquares.push(new RoomPosition(sourcePos.x    , sourcePos.y + 1, source.room.name));
-    surroundingSquares.push(new RoomPosition(sourcePos.x - 1, sourcePos.y + 1, source.room.name));
-    
-    for(var i in surroundingSquares) {
-        var pos = surroundingSquares[i];
-        
-        if(pos && pos.lookFor('terrain').length === 0) {
-            console.log('found terrain');
-            open = open + 1.0;
-        }
-        if(pos && pos.lookFor('creep').length > 0) {
-            hasCreep = hasCreep + 1.0;
-        }
-    }
-    
-    console.log(hasCreep + "/" + open);
-    return hasCreep / open;
-}
+var STATE_TOENERGY = 'toenergy';
+var STATE_MINING = 'mining';
+var STATE_RETURNING = 'returning';
+var STATE_UPGRADING = 'upgrading';
+var STATE_DEPOSITING = 'depositing';
+var STATE_TOCONTROLLER = 'tocontroller';
 
 function stateToEnergy(creep) {
     if(!creep.memory.targetEnergy) {
@@ -41,13 +15,11 @@ function stateToEnergy(creep) {
     }
     
     var energy = Game.getObjectById(creep.memory.targetEnergy);
-    
-    //console.log(calculateSourceBusiness(energy));
 
     if (!creep.pos.isNearTo(energy)) {
         creep.moveTo(energy);
     } else {
-        creep.memory.state = 'mining';
+        creep.memory.state = STATE_MINING;
     }
 }
 
@@ -65,9 +37,9 @@ function stateMining(creep) {
         var spawn = Game.getObjectById(creep.memory.targetSpawn);
         
         if(spawn.energy < spawn.energyCapacity) {
-            creep.memory.state = 'returning';
+            creep.memory.state = STATE_RETURNING;
         } else {
-            creep.memory.state = 'tocontroller';
+            creep.memory.state = STATE_TOCONTROLLER;
         }
     }
 }
@@ -78,7 +50,7 @@ function stateReturning(creep) {
     if (!creep.pos.isNearTo(spawn)) {
         creep.moveTo(spawn);
     } else {
-        creep.memory.state = 'depositing';
+        creep.memory.state = STATE_DEPOSITING;
     }
 }
 
@@ -88,7 +60,7 @@ function stateDepositing(creep) {
     if (creep.carry.energy > 0) {
         creep.transferEnergy(spawn);
     } else {
-        creep.memory.state = 'toenergy';
+        creep.memory.state = STATE_TOENERGY;
     }
 }
 
@@ -96,7 +68,7 @@ function stateToController(creep) {
     if (!creep.pos.isNearTo(creep.room.controller)) {
         creep.moveTo(creep.room.controller);
     } else {
-        creep.memory.state = 'upgrading';
+        creep.memory.state = STATE_UPGRADING;
     }
 }
 
@@ -104,13 +76,13 @@ function stateUpgrading(creep) {
     if (creep.carry.energy > 0) {
         creep.upgradeController(creep.room.controller);
     } else {
-        creep.memory.state = 'toenergy';
+        creep.memory.state = STATE_TOENERGY;
     }
 }
 
 module.exports = function(creep) {
     if(!creep.memory.state) {
-        creep.memory.state = 'toenergy';
+        creep.memory.state = STATE_TOENERGY;
     }
     
     switch(creep.memory.state) {
@@ -136,4 +108,4 @@ module.exports = function(creep) {
             console.log("Error: harvester without valid state " + creep.memory.state);
             break;
     }
-}
+};

@@ -1,5 +1,7 @@
 var harvester = require('harvester');
 
+var population = require('population');
+
 // MUST BE AT THE BEGINNING
 // memory cleanup
 for(var i in Memory.creeps) {

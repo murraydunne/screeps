@@ -32,31 +32,18 @@ function calculateSourceBusiness(source) {
 }
 
 function openSpacesAround(pos) {
+    var room = Game.rooms[pos.roomName];
+    var objectsInArea = room.lookAtArea(pos.y - 1, pos.x - 1, pos.y + 1, pos.x + 1);
     var open = 0;
     
-    if(new RoomPosition(pos.x - 1, pos.y - 1, pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
-    }
-    if(new RoomPosition(pos.x    , pos.y - 1, pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
-    }
-    if(new RoomPosition(pos.x + 1, pos.y - 1, pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
-    }
-    if(new RoomPosition(pos.x - 1, pos.y    , pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
-    }
-    if(new RoomPosition(pos.x + 1, pos.y    , pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
-    }
-    if(new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
-    }
-    if(new RoomPosition(pos.x    , pos.y + 1, pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
-    }
-    if(new RoomPosition(pos.x + 1, pos.y + 1, pos.roomName).lookFor('terrain').length) {
-        open = open + 1;
+    for(var i in objectsInArea) {
+        for(var j in objectsInArea[i]) {
+            for(var k in objectsInArea[i][j]) {
+                if(objectsInArea[i][j][k]['type'] === 'terrain') {
+                    open = open + 1;
+                }
+            }
+        }
     }
     
     return open;

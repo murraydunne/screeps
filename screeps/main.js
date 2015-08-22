@@ -23,3 +23,5 @@ for (var name in Game.creeps) {
             break;
     }
 }
+
+population();

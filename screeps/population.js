@@ -36,12 +36,9 @@ function openSpacesAround(pos) {
     var objectsInArea = room.lookAtArea(pos.y - 1, pos.x - 1, pos.y + 1, pos.x + 1);
     var open = 0;
     
-    console.log('called with ' + pos.x + ' ' + pos.y);
     for(var i in objectsInArea) {
         for(var j in objectsInArea[i]) {
-            console.log(i + ' ' + j);
             if(!(i == pos.y && j == pos.x)) {
-                console.log('ok');
                 for(var k in objectsInArea[i][j]) {
                     if(objectsInArea[i][j][k]['type'] === 'terrain' && objectsInArea[i][j][k]['terrain'] === 'wall') {
                         open = open + 1;
@@ -51,7 +48,7 @@ function openSpacesAround(pos) {
         }
     }
     
-    return open;
+    return 8 - open;
 }
 
 module.exports = function() {

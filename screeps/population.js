@@ -34,28 +34,28 @@ function calculateSourceBusiness(source) {
 function openSpacesAround(pos) {
     var open = 0;
     
-    if(new RoomPosition(pos.x - 1, pos.y - 1, pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x - 1, pos.y - 1, pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
-    if(new RoomPosition(pos.x    , pos.y - 1, pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x    , pos.y - 1, pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
-    if(new RoomPosition(pos.x + 1, pos.y - 1, pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x + 1, pos.y - 1, pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
-    if(new RoomPosition(pos.x - 1, pos.y    , pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x - 1, pos.y    , pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
-    if(new RoomPosition(pos.x + 1, pos.y    , pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x + 1, pos.y    , pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
-    if(new RoomPosition(pos.x - 1, pos.y + 1, pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x - 1, pos.y + 1, pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
-    if(new RoomPosition(pos.x   , pos.y + 1, pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x    , pos.y + 1, pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
-    if(new RoomPosition(pos.x + 1, pos.y + 1, pos.room.name).lookFor('terrain').length) {
+    if(new RoomPosition(pos.x + 1, pos.y + 1, pos.roomName).lookFor('terrain').length) {
         open = open + 1;
     }
     

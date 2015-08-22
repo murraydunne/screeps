@@ -36,7 +36,7 @@ function openSpacesAround(pos) {
     var objectsInArea = room.lookAtArea(pos.y - 1, pos.x - 1, pos.y + 1, pos.x + 1);
     var open = 0;
     
-    console.log('called with ' + x + ' ' + y);
+    console.log('called with ' + pos.x + ' ' + pos.y);
     for(var i in objectsInArea) {
         for(var j in objectsInArea[i]) {
             console.log(i + ' ' + j);

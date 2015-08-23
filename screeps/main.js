@@ -1,4 +1,5 @@
 var harvester = require('harvester');
+var upgrader = require('upgrader');
 
 var population = require('population');
 
@@ -21,6 +22,10 @@ for (var name in Game.creeps) {
         case 'harvester':
             harvester(creep);
             break;
+        case 'upgrader':
+            upgrader(creep);
+            break;
+            
     }
 }
 

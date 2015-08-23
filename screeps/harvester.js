@@ -1,9 +1,7 @@
 var STATE_TOENERGY = 'toenergy';
 var STATE_MINING = 'mining';
 var STATE_RETURNING = 'returning';
-var STATE_UPGRADING = 'upgrading';
 var STATE_DEPOSITING = 'depositing';
-var STATE_TOCONTROLLER = 'tocontroller';
 
 function stateToEnergy(creep) {  
     var energy = Game.getObjectById(creep.memory.assignedSource);
@@ -26,13 +24,7 @@ function stateMining(creep) {
             return;
         }
         
-        var spawn = Game.getObjectById(creep.memory.targetSpawn);
-        
-        if(spawn.energy < spawn.energyCapacity) {
-            creep.memory.state = STATE_RETURNING;
-        } else {
-            creep.memory.state = STATE_TOCONTROLLER;
-        }
+        creep.memory.state = STATE_RETURNING;
     }
 }
 
@@ -56,22 +48,6 @@ function stateDepositing(creep) {
     }
 }
 
-function stateToController(creep) {
-    if (!creep.pos.isNearTo(creep.room.controller)) {
-        creep.moveTo(creep.room.controller);
-    } else {
-        creep.memory.state = STATE_UPGRADING;
-    }
-}
-
-function stateUpgrading(creep) {
-    if (creep.carry.energy > 0) {
-        creep.upgradeController(creep.room.controller);
-    } else {
-        creep.memory.state = STATE_TOENERGY;
-    }
-}
-
 module.exports = function(creep) {
     if(!creep.memory.state) {
         creep.memory.state = STATE_TOENERGY;
@@ -89,12 +65,6 @@ module.exports = function(creep) {
             break;
         case 'depositing':
             stateDepositing(creep);
-            break;
-        case 'tocontroller':
-            stateToController(creep);
-            break;
-        case 'upgrading':
-            stateUpgrading(creep);
             break;
         default:
             console.log("Error: harvester without valid state " + creep.memory.state);

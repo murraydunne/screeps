@@ -24,6 +24,8 @@ module.exports = function() {
     var sourceAssignedCreeps = new Array(sources.length);
     var sourceHaveCreeps = new Array(sources.length);
     
+    var numUpgraders = 0;
+    
     for(var i = 0; i < sources.length; i++) {
         sourceAssignedCreeps[i] = openSpacesAround(sources[i].pos);
         sourceHaveCreeps[i] = 0;
@@ -33,12 +35,16 @@ module.exports = function() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         
-        if(creep.memory.role == 'harvester') {
+        if(creep.memory.role === 'harvester') {
             for(var i = 0; i < sources.length; i++) {
-                if(creep.memory.assignedSource == sources[i].id) {
+                if(creep.memory.assignedSource === sources[i].id) {
                     sourceHaveCreeps[i] = sourceHaveCreeps[i] + 1;
                 }
             }
+        }
+        
+        if(creep.memory.role === 'upgrader') {
+            numUpgraders = numUpgraders + 1;
         }
     }
     
@@ -50,5 +56,12 @@ module.exports = function() {
                 'assignedSource': sources[i].id
             });
         }
+    }
+    
+    var numUpgradersNeeded = 2 - numUpgraders;
+    if(numUpgradersNeeded > 0) {
+        Game.spawns['spawn1'].createCreep([WORK, CARRY, MOVE], undefined, {
+            'role': 'upgrader'
+        });
     }
 };

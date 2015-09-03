@@ -1,9 +1,9 @@
 var StateMachine = require('statemachine');
 
 module.exports = function(creep) {
-    var minerMachine = new StateMachine(creep, 'gotosource');
+    var machine = new StateMachine(creep, 'gotosource');
     
-    minerMachine.addState('gotosource', function(creep) {
+    machine.addState('gotosource', function(creep) {
         creep.memory.assignedSource = creep.pos.findClosest(FIND_SOURCES_ACTIVE).id;
         
     }, function(creep) {
@@ -11,12 +11,12 @@ module.exports = function(creep) {
         if (!creep.pos.isNearTo(source)) {
             creep.moveTo(source);
         } else {
-            minerMachine.transition('mining');
+            machine.transition('mining');
         }
         
     }, function(creep) { });
     
-    minerMachine.addState('mining', function(creep) { }, function(creep) {
+    machine.addState('mining', function(creep) { }, function(creep) {
         var source = Game.getObjectById(creep.memory.assignedSource);
         
         if (creep.carry.energy < creep.carryCapacity) {
@@ -27,5 +27,5 @@ module.exports = function(creep) {
         
     }, function(creep) { });
     
-    return minerMachine;
+    return machine;
 };

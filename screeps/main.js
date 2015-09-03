@@ -10,6 +10,7 @@ for(var i in Memory.creeps) {
 var roleStateMachines = new Object();
 roleStateMachines['miner'] = require('miner');
 roleStateMachines['collector'] = require('collector');
+roleStateMachines['upgrader'] = require('upgrader');
 
 
 // TEMP
@@ -30,6 +31,10 @@ if(howMany('miner') < 2) {
 } else if(howMany('collector') < 2) {
     Game.spawns['spawn1'].createCreep([CARRY, CARRY, MOVE, MOVE], undefined, {
         role: 'collector'
+    });
+} else if(howMany('upgrader') < 1) {
+    Game.spawns['spawn1'].createCreep([CARRY, CARRY, MOVE, MOVE], undefined, {
+        role: 'upgrader'
     });
 }
 

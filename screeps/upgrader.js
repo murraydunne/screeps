@@ -18,10 +18,8 @@ module.exports = function(creep) {
     }, function(creep) { });
     
     machine.addState('tocontroller', function(creep) { }, function(creep) {
-        var controller = creep.room.contoller;
-        
-        if (!creep.pos.isNearTo(controller)) {
-            creep.moveTo(controller);
+        if (!creep.pos.isNearTo(creep.room.controller)) {
+            creep.moveTo(creep.room.controller);
         } else {
             machine.transition('upgrading');
         }

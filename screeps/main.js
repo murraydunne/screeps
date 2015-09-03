@@ -1,8 +1,3 @@
-var harvester = require('harvester');
-var upgrader = require('upgrader');
-
-var population = require('population');
-
 // MUST BE AT THE BEGINNING
 // memory cleanup
 for(var i in Memory.creeps) {
@@ -11,22 +6,20 @@ for(var i in Memory.creeps) {
     }
 }
 
-//if(Object.keys(Game.creeps).length < 10) {
-//    Game.spawns['spawn1'].createCreep([WORK, CARRY, MOVE], undefined, {'role': 'harvester'});
-//}
+// SETUP THE ROLE MAP
+var roleStateMachines = new Object();
+roleStateMachines['miner'] = require('miner');
+
+
+// TEMP
+if(Object.keys(Game.creeps).length < 2) {
+    Game.spawns['spawn1'].createCreep([WORK, CARRY, MOVE], undefined, {
+        role: 'miner'
+    });
+}
 
 for (var name in Game.creeps) {
     var creep = Game.creeps[name];
     
-    switch(creep.memory.role) {
-        case 'harvester':
-            harvester(creep);
-            break;
-        case 'upgrader':
-            upgrader(creep);
-            break;
-            
-    }
+    roleStateMachines[creep.memory.role](creep).run();
 }
-
-population();

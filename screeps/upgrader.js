@@ -10,7 +10,7 @@ module.exports = function(creep) {
         var spawn = Game.getObjectById(creep.memory.assignedSpawn);
         
         if (creep.carry.energy < creep.carryCapacity) {
-            spawn.transferEnergy(creep.carryCapacity - creep.carry.energy);
+            spawn.transferEnergy(creep, creep.carryCapacity - creep.carry.energy);
         } else {
             machine.transition('tocontroller');
         }

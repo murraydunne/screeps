@@ -27,12 +27,9 @@ module.exports = function(creep) {
     }, function(creep) { });
     
     machine.addState('upgrading', function(creep) { }, function(creep) {
-        console.log("am upgrading");
         if (creep.carry.energy > 0) {
-            console.log("have NRG");
             creep.upgradeController(creep.room.contoller);
         } else {
-            console.log("trasitioning");
             machine.transition('tospawn');
         }
     }, function(creep) { });

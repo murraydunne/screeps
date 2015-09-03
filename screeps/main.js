@@ -33,7 +33,7 @@ if(howMany('miner') < 2) {
         role: 'collector'
     });
 } else if(howMany('upgrader') < 1) {
-    Game.spawns['spawn1'].createCreep([CARRY, CARRY, MOVE, MOVE], undefined, {
+    Game.spawns['spawn1'].createCreep([WORK, WORK, MOVE], undefined, {
         role: 'upgrader'
     });
 }

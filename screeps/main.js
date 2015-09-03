@@ -23,7 +23,7 @@ function howMany(role) {
     return count;
 }
 
-if(howMay('miner') < 2) {
+if(howMany('miner') < 2) {
     Game.spawns['spawn1'].createCreep([WORK, CARRY, MOVE], undefined, {
         role: 'miner'
     });

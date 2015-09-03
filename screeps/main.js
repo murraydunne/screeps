@@ -13,7 +13,7 @@ roleStateMachines['collector'] = require('collector');
 
 
 // TEMP
-function howMay(role) {
+function howMany(role) {
     var count = 0;
     for(var name in Game.creeps) {
         if(Game.creeps[name].memory.role === role) {

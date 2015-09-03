@@ -28,7 +28,7 @@ module.exports = function(creep) {
     
     machine.addState('upgrading', function(creep) { }, function(creep) {
         if (creep.carry.energy > 0) {
-            console.log("upgrctrl ret " + creep.upgradeController(creep.room.contoller));
+            creep.upgradeController(creep.room.controller);
         } else {
             machine.transition('tospawn');
         }
